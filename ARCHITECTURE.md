@@ -207,3 +207,68 @@ python main.py
 
 # Database migrations run automatically on startup
 ```
+
+## How to Run
+
+### Prerequisites
+- Python 3.8+
+- PostgreSQL database (Supabase or local)
+- Gemini API key
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/yourusername/chatbot-backend.git
+cd chatbot-backend
+```
+
+### 2. Create Virtual Environment
+```bash
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# Mac/Linux
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment
+```bash
+# Copy example env file
+cp .env.example .env
+
+# Edit .env with your values
+# - DATABASE_URL: Your PostgreSQL connection string
+# - JWT_SECRET: Random secret key
+# - GEMINI_API_KEY: Your Gemini API key
+# - FRONTEND_URLS: Your frontend URL(s)
+```
+
+### 5. Run Server
+```bash
+# Development
+python main.py
+
+# Or with uvicorn directly
+uvicorn main:app --reload --port 8000
+```
+
+### 6. Access API
+- API: http://localhost:8000
+- Docs: http://localhost:8000/docs
+- Health: http://localhost:8000/health
+
+### Database
+Tables are created automatically on first run. Or run manually:
+```sql
+-- See sql/000_init.sql
+```
+
+## Deployment
+
+See [VERCEL_DEPLOYMENT.md](../VERCEL_DEPLOYMENT.md) for Vercel deployment instructions.
