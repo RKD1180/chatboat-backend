@@ -1,0 +1,11 @@
+fastapi
+python-dotenv
+psycopg2-binary
+pydantic[email]
+python-jose[cryptography]
+python-multipart
+httpx
+google-generativeai
+PyPDF2
+scikit-learn
+numpy

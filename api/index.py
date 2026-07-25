@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import settings
@@ -14,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include routes
 app.include_router(api_router)
 
 

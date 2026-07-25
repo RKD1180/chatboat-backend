@@ -1,13 +1,18 @@
+import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from config import settings
-from config.database import run_migrations
 from routes import api_router
 
-# Run migrations on startup
-run_migrations()
+# Only run migrations in non-Vercel environment
+if not os.environ.get("VERCEL"):
+    try:
+        from config.database import run_migrations
+        run_migrations()
+    except Exception as e:
+        print(f"Migration warning: {e}")
 
 app = FastAPI(title="Chatbot Backend", version="1.0.0")
 
@@ -20,7 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# Serve uploaded files (only in non-Vercel environment)
+if not os.environ.get("VERCEL"):
+    os.makedirs("uploads", exist_ok=True)
+    app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.include_router(api_router)
 
