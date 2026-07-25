@@ -5,10 +5,12 @@ from config.database import get_connection
 from modules.files.model import File
 
 UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 async def upload(project_id: str, file: UploadFile, user_id: str) -> dict:
+    if os.environ.get("VERCEL"):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File upload not supported on Vercel")
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
     try:
         file_ext = file.filename.split(".")[-1] if "." in file.filename else ""
         unique_name = f"{uuid.uuid4().hex}.{file_ext}"
